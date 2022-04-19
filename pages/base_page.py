@@ -45,6 +45,13 @@ class BasePage:
         except NoSuchElementException:
             return "element not found"
 
+    def input_value(self, how, what, text):
+        try:
+            element = self.browser.find_element(how, what)
+            element.send_keys(text)
+        except NoSuchElementException:
+            return "element not found"
+
     def element_value(self, how, what):
         try:
             element = self.browser.find_element(how, what).text
@@ -53,12 +60,22 @@ class BasePage:
             return "element not found"
 
     def go_to_login_page(self):
-        link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
-        link.click()
+        try:
+            link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
+            link.click()
+        except NoSuchElementException:
+            return "element not found"
 
     def should_be_login_link(self):
         assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
 
     def go_to_basket_page(self):
-        link = self.browser.find_element(*BasePageLocators.BASKET_LINK)
-        link.click()
+        try:
+            link = self.browser.find_element(*BasePageLocators.BASKET_LINK)
+            link.click()
+        except NoSuchElementException:
+            return "element not found"
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+                                                                     " probably unauthorised user"
